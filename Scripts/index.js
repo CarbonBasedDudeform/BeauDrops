@@ -21,16 +21,9 @@ function GameLoop() {
   Render();
 }
 
-var r = 255;
-var g = 255;
-var b = 255;
-
 function Update() {
-  r--; g--; b--;
-  //console.log(r);
-  var col = "rgb("+r+","+g+","+b+")";
   Grid.forEach(function(element) {
-    element.SetColour(col);
+    element.Update();
   });
 }
 
