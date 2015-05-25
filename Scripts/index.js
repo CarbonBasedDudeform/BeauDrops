@@ -8,7 +8,7 @@ function onLoad() {
 
   for(var i = 0; i < 50; ++i) {
     for (var j = 0; j < 25; ++j) {
-      Grid.push(new Block(6*i,6*j, 5, 5));
+      Grid.push(new Droplet(6*i,6*j, 5, 5));
     }
   }
 

@@ -1,4 +1,4 @@
-var Block = function(x,y, width, height)
+var Droplet = function(x,y, width, height)
 {
   this.X = x;
   this.Y = y;
