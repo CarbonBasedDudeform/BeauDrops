@@ -17,6 +17,7 @@ function onLoad() {
 
 function GameLoop() {
   context.clearRect(0, 0, canvasElement.Width, canvasElement.Height);
+  if (Math.random() > 0.5) randomlyStimulate();
   Update();
   Render();
 }
@@ -31,4 +32,9 @@ function Render() {
   Grid.forEach(function (element) {
     element.Render(context);
   });
+}
+
+function randomlyStimulate()
+{
+  Grid[Math.floor(Math.random() * Grid.length)].Stimulate(0.4);
 }

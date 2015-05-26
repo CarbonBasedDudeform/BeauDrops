@@ -34,4 +34,8 @@ var Droplet = function(x,y, width, height)
                      this.Width,
                      this.Height);
   }
+
+  this.Stimulate = function(energy) {
+    this.KineticEnergy += energy;
+  }
 };
