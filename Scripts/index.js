@@ -16,8 +16,10 @@ function onLoad() {
 }
 
 function GameLoop() {
+  console.log("looping");
   context.clearRect(0, 0, canvasElement.Width, canvasElement.Height);
-  if (Math.random() > 0.5) randomlyStimulate();
+  //if (Math.random() > 0.1)
+  randomlyStimulate();
   Update();
   Render();
 }
@@ -36,5 +38,7 @@ function Render() {
 
 function randomlyStimulate()
 {
-  Grid[Math.floor(Math.random() * Grid.length)].Stimulate(0.4);
+  var num = Math.floor(Math.random() * Grid.length);
+  console.log("Stimulating " + num);
+  Grid[num].Stimulate(0.8);
 }

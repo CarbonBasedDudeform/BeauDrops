@@ -9,6 +9,9 @@ var Droplet = function(x,y, width, height)
   this.Green = 100;
   this.Blue = 100;
   this.KineticEnergy = 1;
+  this.RedWeight = 1;
+  this.GreenWeight = 1;
+  this.BlueWeight = 1;
 
   //red, green, blue as percentages
   this.SetColour = function(red, green, blue) {
@@ -16,9 +19,9 @@ var Droplet = function(x,y, width, height)
   }
 
   this.Update = function () {
-    this.Red *= this.KineticEnergy;
-    this.Green *= this.KineticEnergy;
-    this.Blue *= this.KineticEnergy;
+    this.Red *= this.KineticEnergy * this.RedWeight;
+    this.Green *= this.KineticEnergy * this.GreenWeight;
+    this.Blue *= this.KineticEnergy * this.BlueWeight;
 
     this.SetColour(this.Red,
               this.Green,
@@ -36,6 +39,15 @@ var Droplet = function(x,y, width, height)
   }
 
   this.Stimulate = function(energy) {
+    this.Red = 100;
+    this.Green = 100;
+    this.Blue = 100;
+    
     this.KineticEnergy += energy;
+    function range() {return (0.6 - 0.333) + 0.333;}
+
+    this.RedWeight = Math.random() * range();
+    this.GreenWeight = Math.random() * range();
+    this.BlueWeight = Math.random() * range();
   }
 };
