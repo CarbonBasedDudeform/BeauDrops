@@ -5,10 +5,10 @@ var Droplet = function(x,y, width, height)
   this.Width = width;
   this.Height = height;
   this.Colour = "rgb(100%, 100%, 100%)";
-  this.Red = 100;
-  this.Green = 100;
-  this.Blue = 100;
-  this.KineticEnergy = 1;
+  this.Red = 0;
+  this.Green = 0;
+  this.Blue = 0;
+  this.KineticEnergy = 0;
   this.RedWeight = 1;
   this.GreenWeight = 1;
   this.BlueWeight = 1;
@@ -18,16 +18,34 @@ var Droplet = function(x,y, width, height)
     this.Colour = "rgb("+red +"%," + green + "%," + blue + "%)";
   }
 
+  this.neighbours = [];
+  this.AddNeighbour = function(neighbour) {
+      if (typeof(neighbour) == 'undefined') return;
+
+      this.neighbours.push(neighbour);
+  }
+
   this.Update = function () {
-    this.Red *= this.KineticEnergy * this.RedWeight;
-    this.Green *= this.KineticEnergy * this.GreenWeight;
-    this.Blue *= this.KineticEnergy * this.BlueWeight;
+    this.Red = this.KineticEnergy;// * this.RedWeight;
+    this.Green = this.KineticEnergy;// * this.GreenWeight;
+    this.Blue = this.KineticEnergy;// * this.BlueWeight;
 
     this.SetColour(this.Red,
               this.Green,
               this.Blue);
 
-    this.KineticEnergy *= Math.random() * (1.0 - 0.999) + 0.999;
+  /*  var sum = 0;
+
+    this.neighbours.forEach(function(cur) {
+        sum += cur.KineticEnergy;
+        cur.KineticEnergy *= 0.999999;
+    });
+
+    sum /= this.neighbours.length;
+
+    this.KineticEnergy = sum;
+    this.KineticEnergy *= 0.999999;
+    */
   }
 
   this.Render = function(context) {
@@ -38,16 +56,21 @@ var Droplet = function(x,y, width, height)
                      this.Height);
   }
 
-  this.Stimulate = function(energy) {
+  this.ResetColour = function (){
     this.Red = 100;
     this.Green = 100;
     this.Blue = 100;
-    
-    this.KineticEnergy += energy;
-    function range() {return (0.6 - 0.333) + 0.333;}
+  }
 
-    this.RedWeight = Math.random() * range();
-    this.GreenWeight = Math.random() * range();
-    this.BlueWeight = Math.random() * range();
+  this.Stimulate = function(energy) {
+    this.KineticEnergy += energy;
+    function range() {return 0.666;}
+
+    this.RedWeight = Math.random() + range();
+    if (this.RedWeight > 1) this.RedWeight = 1;
+    this.GreenWeight = Math.random() + range();
+    if (this.GreenWeight > 1) this.GreenWeight = 1;
+    this.BlueWeight = Math.random() + range();
+    if (this.BlueWeight > 1) this.BlueWeight = 1;
   }
 };

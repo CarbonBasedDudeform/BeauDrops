@@ -13,17 +13,78 @@ function onLoad() {
   }
 
   window.setInterval("GameLoop()", 30);
+  window.setInterval("randomlyStimulate()", 1000);
+  //randomlyStimulate();
 }
 
 function GameLoop() {
   context.clearRect(0, 0, canvasElement.Width, canvasElement.Height);
-  if (Math.random() > 0.5) randomlyStimulate();
   Update();
   Render();
 }
 
 function Update() {
+
+
+  for(var i = 0; i < (25*50); ++i) {
+    var sum = 0;
+    if (typeof(Grid[i+1]) != 'undefined')
+    {
+      sum += Grid[i+1].KineticEnergy;
+      Grid[i+1].KineticEnergy *= 0.999;
+    }
+
+    if (typeof(Grid[i-1]) != 'undefined')
+    {
+      sum += Grid[i-1].KineticEnergy;
+      Grid[i-1].KineticEnergy *= 0.999;
+    }
+
+    if (typeof(Grid[i+25]) != 'undefined')
+    {
+      sum += Grid[i+25].KineticEnergy;
+      Grid[i+25].KineticEnergy *= 0.999;
+    }
+
+    if (typeof(Grid[i-25]) != 'undefined')
+    {
+      sum += Grid[i-25].KineticEnergy;
+      Grid[i-25].KineticEnergy *= 0.999;
+    }
+
+    if (typeof(Grid[i+24]) != 'undefined')
+    {
+      sum += Grid[i+24].KineticEnergy;
+      Grid[i+24].KineticEnergy *= 0.999;
+    }
+
+    if (typeof(Grid[i-24]) != 'undefined')
+    {
+      sum += Grid[i-24].KineticEnergy;
+      Grid[i-24].KineticEnergy *= 0.999;
+    }
+
+    if (typeof(Grid[i+26]) != 'undefined')
+    {
+      sum += Grid[i+26].KineticEnergy;
+      Grid[i+26].KineticEnergy *= 0.999;
+    }
+
+    if (typeof(Grid[i-26]) != 'undefined')
+    {
+      sum += Grid[i-26].KineticEnergy;
+      Grid[i-26].KineticEnergy *= 0.999;
+    }
+
+    if (Grid[i].KineticEnergy < (sum/8))
+    {
+      //console.log(sum / 8);
+      Grid[i].KineticEnergy = sum / 8;
+    }
+  }
+
   Grid.forEach(function(element) {
+    element.KineticEnergy *= 0.99;
     element.Update();
   });
 }
@@ -37,5 +98,7 @@ function Render() {
 function randomlyStimulate()
 {
   var randomIndex = Math.floor(Math.random() * Grid.length);
-  Grid[randomIndex].Stimulate(0.8);
+  var epicentre = Grid[randomIndex];
+  epicentre.ResetColour();
+  epicentre.Stimulate(100);
 }
