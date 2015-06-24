@@ -18,13 +18,6 @@ var Droplet = function(x,y, width, height)
     this.Colour = "rgb("+red +"%," + green + "%," + blue + "%)";
   }
 
-  this.neighbours = [];
-  this.AddNeighbour = function(neighbour) {
-      if (typeof(neighbour) == 'undefined') return;
-
-      this.neighbours.push(neighbour);
-  }
-
   this.Update = function () {
     this.Red = this.KineticEnergy;// * this.RedWeight;
     this.Green = this.KineticEnergy;// * this.GreenWeight;
@@ -33,19 +26,6 @@ var Droplet = function(x,y, width, height)
     this.SetColour(this.Red,
               this.Green,
               this.Blue);
-
-  /*  var sum = 0;
-
-    this.neighbours.forEach(function(cur) {
-        sum += cur.KineticEnergy;
-        cur.KineticEnergy *= 0.999999;
-    });
-
-    sum /= this.neighbours.length;
-
-    this.KineticEnergy = sum;
-    this.KineticEnergy *= 0.999999;
-    */
   }
 
   this.Render = function(context) {
