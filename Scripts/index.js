@@ -1,92 +1,89 @@
 var Grid = [];
 var context;
 var canvasElement;
+var height = 100;
+var width = 50;
+var dropletX = 0.5;
+var dropletY = 0.5;
 
 function onLoad() {
   canvasElement = document.getElementById("canvas");
   context = canvasElement.getContext("2d");
 
-  for(var i = 0; i < 50; ++i) {
-    for (var j = 0; j < 25; ++j) {
-      Grid.push(new Droplet(6*i,6*j, 5, 5));
+  for(var i = 0; i < height; ++i) {
+    for (var j = 0; j < width; ++j) {
+      Grid.push(new Droplet(dropletX*i,dropletY*j, dropletX, dropletY));
     }
   }
 
+  Grid.forEach(function(element) {
+    //element.KineticEnergy *= 0.999999999999999999999;
+    element.Update();
+  });
+
   window.setInterval("GameLoop()", 30);
-  window.setInterval("randomlyStimulate()", 1000);
-  //randomlyStimulate();
+  window.setInterval("randomlyStimulate()", 100);
 }
 
 function GameLoop() {
-  context.clearRect(0, 0, canvasElement.Width, canvasElement.Height);
   Update();
   Render();
 }
 
 function Update() {
 
-
-  for(var i = 0; i < (25*50); ++i) {
+  var length=(width*height);
+  for(var i = 0; i < length; ++i) {
     var sum = 0;
-    if (typeof(Grid[i+1]) != 'undefined')
-    {
-      sum += Grid[i+1].KineticEnergy;
-      Grid[i+1].KineticEnergy *= 0.999;
+    var r = 0;
+    var g = 0;
+    var b = 0;
+
+    function applyLaw(gridCell) {
+      if (typeof(gridCell) != 'undefined')
+      {
+        sum += gridCell.KineticEnergy;
+        gridCell.KineticEnergy *= 0.996;
+        r += gridCell.Red;
+        g += gridCell.Green;
+        b += gridCell.Blue;
+      }
     }
 
-    if (typeof(Grid[i-1]) != 'undefined')
-    {
-      sum += Grid[i-1].KineticEnergy;
-      Grid[i-1].KineticEnergy *= 0.999;
-    }
+    applyLaw(Grid[i+1]);
+    applyLaw(Grid[i-1]);
+    applyLaw(Grid[i+width]);
+    applyLaw(Grid[i-width]);
+    applyLaw(Grid[i+width-1]);
+    applyLaw(Grid[i-width-1]);
+    applyLaw(Grid[i+width+1]);
+    applyLaw(Grid[i-width+1]);
 
-    if (typeof(Grid[i+25]) != 'undefined')
-    {
-      sum += Grid[i+25].KineticEnergy;
-      Grid[i+25].KineticEnergy *= 0.999;
-    }
-
-    if (typeof(Grid[i-25]) != 'undefined')
-    {
-      sum += Grid[i-25].KineticEnergy;
-      Grid[i-25].KineticEnergy *= 0.999;
-    }
-
-    if (typeof(Grid[i+24]) != 'undefined')
-    {
-      sum += Grid[i+24].KineticEnergy;
-      Grid[i+24].KineticEnergy *= 0.999;
-    }
-
-    if (typeof(Grid[i-24]) != 'undefined')
-    {
-      sum += Grid[i-24].KineticEnergy;
-      Grid[i-24].KineticEnergy *= 0.999;
-    }
-
-    if (typeof(Grid[i+26]) != 'undefined')
-    {
-      sum += Grid[i+26].KineticEnergy;
-      Grid[i+26].KineticEnergy *= 0.999;
-    }
-
-    if (typeof(Grid[i-26]) != 'undefined')
-    {
-      sum += Grid[i-26].KineticEnergy;
-      Grid[i-26].KineticEnergy *= 0.999;
-    }
-
-    if (Grid[i].KineticEnergy < (sum/8))
+    if (Grid[i].KineticEnergy <= (sum/8))
     {
       //console.log(sum / 8);
       Grid[i].KineticEnergy = sum / 8;
+      Grid[i].Red = r/8;
+      Grid[i].Green = g/8;
+      Grid[i].Blue = b/8;
     }
-  }
 
-  Grid.forEach(function(element) {
-    element.KineticEnergy *= 0.99;
-    element.Update();
-  });
+    if (Grid[i].Red > r/8) {
+      Grid[i].Red = r/8;
+    }
+
+    if (Grid[i].Green > g/8)
+    {
+      Grid[i].Green = g/8;
+    }
+
+    if (Grid[i].Blue > 0 )
+    {
+      Grid[i].Blue = b/8;
+    }
+
+    Grid[i].Update();
+  }
 }
 
 function Render() {
@@ -100,5 +97,5 @@ function randomlyStimulate()
   var randomIndex = Math.floor(Math.random() * Grid.length);
   var epicentre = Grid[randomIndex];
   epicentre.ResetColour();
-  epicentre.Stimulate(100);
+  epicentre.Stimulate(1.75);
 }
