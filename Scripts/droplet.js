@@ -5,9 +5,9 @@ var Droplet = function(x,y, width, height)
   this.Width = width;
   this.Height = height;
   this.Colour = "rgb(100%, 100%, 100%)";
-  this.Red = 0;
-  this.Green = 0;
-  this.Blue = 0;
+  this.Red = 100 * Math.random();
+  this.Green = 100 * Math.random();
+  this.Blue = 100 * Math.random();
   this.KineticEnergy = 0;
   this.RedWeight = 1;
   this.GreenWeight = 1;
@@ -19,16 +19,22 @@ var Droplet = function(x,y, width, height)
   }
 
   this.Update = function () {
-    this.Red = this.KineticEnergy;// * this.RedWeight;
-    this.Green = this.KineticEnergy;// * this.GreenWeight;
-    this.Blue = this.KineticEnergy;// * this.BlueWeight;
+    if (this.KineticEnergy > 0) {
+    this.Red *= this.KineticEnergy/1500;
+    this.Green *= this.KineticEnergy/1500;
+    this.Blue *= this.KineticEnergy/1500;
+  }
 
-    this.SetColour(this.Red,
-              this.Green,
-              this.Blue);
+    var r = this.Red;// * this.KineticEnergy;// * this.RedWeight;
+    var g = this.Green;// * this.KineticEnergy;// * this.GreenWeight;
+    var b = this.Blue;// * this.BlueWeight;
+
+
+    this.SetColour(r,g,b);
   }
 
   this.Render = function(context) {
+    context.globalAlpha = this.KineticEnergy;
     context.fillStyle = this.Colour;
     context.fillRect(this.X,
                      this.Y,
@@ -43,14 +49,18 @@ var Droplet = function(x,y, width, height)
   }
 
   this.Stimulate = function(energy) {
-    this.KineticEnergy += energy;
-    function range() {return 0.666;}
+    this.KineticEnergy = energy;
+    function range() {return 0.33;}
 
     this.RedWeight = Math.random() + range();
-    if (this.RedWeight > 1) this.RedWeight = 1;
+    if (this.RedWeight > 1) this.RedWeight = 0.5;
     this.GreenWeight = Math.random() + range();
-    if (this.GreenWeight > 1) this.GreenWeight = 1;
+    if (this.GreenWeight > 1) this.GreenWeight = 0.5;
     this.BlueWeight = Math.random() + range();
-    if (this.BlueWeight > 1) this.BlueWeight = 1;
+    if (this.BlueWeight > 1) this.BlueWeight = 0.5;
+
+    this.Red *= this.RedWeight;
+    this.Green *= this.GreenWeight;
+    this.Blue *= this.BlueWeight;
   }
 };
