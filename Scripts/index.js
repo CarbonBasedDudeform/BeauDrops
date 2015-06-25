@@ -17,12 +17,11 @@ function onLoad() {
   }
 
   Grid.forEach(function(element) {
-    //element.KineticEnergy *= 0.999999999999999999999;
     element.Update();
   });
 
   window.setInterval("GameLoop()", 30);
-  window.setInterval("randomlyStimulate()", 100);
+  window.setInterval("randomlyStimulate()", 300);
 }
 
 function GameLoop() {
@@ -30,9 +29,8 @@ function GameLoop() {
   Render();
 }
 
+var length=(width*height);
 function Update() {
-
-  var length=(width*height);
   for(var i = 0; i < length; ++i) {
     var sum = 0;
     var r = 0;
@@ -63,23 +61,20 @@ function Update() {
     {
       //console.log(sum / 8);
       Grid[i].KineticEnergy = sum / 8;
-      Grid[i].Red = r/8;
-      Grid[i].Green = g/8;
-      Grid[i].Blue = b/8;
     }
 
     if (Grid[i].Red > r/8) {
-      Grid[i].Red = r/8;
+      //Grid[i].Red = r/8;
     }
 
     if (Grid[i].Green > g/8)
     {
-      Grid[i].Green = g/8;
+      //Grid[i].Green = g/8;
     }
 
     if (Grid[i].Blue > 0 )
     {
-      Grid[i].Blue = b/8;
+      //Grid[i].Blue = b/8;
     }
 
     Grid[i].Update();
