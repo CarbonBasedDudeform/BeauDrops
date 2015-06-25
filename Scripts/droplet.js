@@ -5,9 +5,9 @@ var Droplet = function(x,y, width, height)
   this.Width = width;
   this.Height = height;
   this.Colour = "rgb(100%, 100%, 100%)";
-  this.Red = 100 * Math.random();
-  this.Green = 100 * Math.random();
-  this.Blue = 100 * Math.random();
+  this.Red = 0;//100 * Math.random();
+  this.Green = 50 * Math.random();
+  this.Blue = 100;// * Math.random();
   this.KineticEnergy = 0;
   this.RedWeight = 1;
   this.GreenWeight = 1;
@@ -19,11 +19,7 @@ var Droplet = function(x,y, width, height)
   }
 
   this.Update = function () {
-    if (this.KineticEnergy > 0) {
-    this.Red *= this.KineticEnergy/1500;
-    this.Green *= this.KineticEnergy/1500;
-    this.Blue *= this.KineticEnergy/1500;
-  }
+
 
     var r = this.Red;// * this.KineticEnergy;// * this.RedWeight;
     var g = this.Green;// * this.KineticEnergy;// * this.GreenWeight;
@@ -43,8 +39,8 @@ var Droplet = function(x,y, width, height)
   }
 
   this.ResetColour = function (){
-    this.Red = 100;
-    this.Green = 100;
+    this.Red = 0;
+    this.Green = 50;
     this.Blue = 100;
   }
 
