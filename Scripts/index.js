@@ -35,7 +35,7 @@ function Update() {
       if (typeof(gridCell) != 'undefined')
       {
         sum += gridCell.KineticEnergy;
-        gridCell.KineticEnergy *= 0.996;
+        gridCell.KineticEnergy *= 0.994;
       }
     }
 
@@ -58,7 +58,7 @@ function Render() {
   context.clearRect(0,0,height,width);
 
   Grid.forEach(function (element) {
-    if (element.KineticEnergy > 0.1)  element.Render(context);
+    if (element.KineticEnergy > 0.07)  element.Render(context);
   });
 
   context.globalAlpha = 0.1;
