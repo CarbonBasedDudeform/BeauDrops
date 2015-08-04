@@ -1,31 +1,21 @@
+var DEFAULT_DROPLET_COLOUR = "rgb(33%, 33%, 33%)";
 var Droplet = function(x,y, width, height)
 {
-  this.X = x;
-  this.Y = y;
-  this.Width = width;
-  this.Height = height;
-  this.Colour = "rgb(33%, 33%, 33%)";
-  this.Red = 0;
-  this.Green = 0;
-  this.Blue = 0;
+  this.Dimensions = {X: x, Y: y, Width: width, Height: height   }
+  this.Colour = DEFAULT_DROPLET_COLOUR;
   this.KineticEnergy = 0;
-  this.RedWeight = 1;
-  this.GreenWeight = 1;
-  this.BlueWeight = 1;
-
-  //red, green, blue as percentages
-  this.SetColour = function(red, green, blue) {
-    this.Colour = "rgb("+red +"%," + green + "%," + blue + "%)";
-  }
 
   this.Render = function(context) {
+    context.save();
+
     context.globalAlpha = this.KineticEnergy;
     context.fillStyle = this.Colour;
-    context.fillRect(this.X,
-                     this.Y,
-                     this.Width,
-                     this.Height);
-    context.globalAlpha = 1;
+    context.fillRect(this.Dimensions.X,
+                     this.Dimensions.Y,
+                     this.Dimensions.Width,
+                     this.Dimensions.Height);
+
+    context.restore();
   }
 
   this.Stimulate = function(energy) {
